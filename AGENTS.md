@@ -9,6 +9,9 @@
 
 ## UI and Styling
 
+- ALWAYS use existing shadcn components.
+- Do not tweak shadcn component styles unless explicitly told to.
+- Do not add custom classes to imported shadcn components unless explicitly told to.
 - Always use Tailwind utility classes for styling. Do not add CSS modules, component-specific stylesheets, or inline style objects.
 - Always use existing semantic color tokens such as `bg-background`, `text-foreground`, `bg-primary`, `text-muted-foreground`, `border-border`, and `ring-ring` instead of hardcoded colors or arbitrary color values.
 - New CSS variables may be introduced when a needed semantic token does not exist. Define the token for each supported theme in `src/styles.css` and expose it through the Tailwind theme before using it.
