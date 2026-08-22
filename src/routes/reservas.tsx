@@ -58,17 +58,23 @@ function FloorReservationView({ floor }: { floor: Floor }) {
 		<div className="rounded overflow-hidden border my-4">
 			<div
 				className="bg-linear-to-b from-muted to-secondary px-4 py-2
-					font-medium border-b"
+					font-medium text-lg"
 			>
 				{floor.name}
 
 				{/* add collapsible button */}
 			</div>
 			<div>
-				--list of rooms-
+				{floor.rooms.map(r => <RoomView room={r} />)}
 			</div>
 		</div >
 	)
 }
 
-function RoomView() { }
+function RoomView({ room }: { room: Room }) {
+	return (
+		<div className="border-t px-2 py-1">
+			{room.name}
+		</div >
+	)
+}
