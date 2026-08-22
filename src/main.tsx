@@ -1,22 +1,16 @@
-import ReactDOM from "react-dom/client";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { RouterProvider, createRouter } from "@tanstack/react-router";
-import { routeTree } from "./routeTree.gen";
+import { RouterProvider } from "@tanstack/react-router";
+import ReactDOM from "react-dom/client";
 import { queryClient } from "./lib/query-client";
+import { getRouter } from "./router";
 
-const router = createRouter({
-	routeTree,
-	defaultPreload: "intent",
-	scrollRestoration: true,
-});
+const router = getRouter();
 
-declare module "@tanstack/react-router" {
-	interface Register {
-		router: typeof router;
-	}
+const rootElement = document.getElementById("app");
+
+if (!rootElement) {
+	throw new Error('The app root element "app" was not found.');
 }
-
-const rootElement = document.getElementById("app")!;
 
 if (!rootElement.innerHTML) {
 	const root = ReactDOM.createRoot(rootElement);

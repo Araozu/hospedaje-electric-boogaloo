@@ -15,6 +15,7 @@ const config = defineConfig({
 		viteReact(),
 	],
 	server: {
+		port: 4330,
 		proxy: {
 			"/api": {
 				target: "http://localhost:5110",

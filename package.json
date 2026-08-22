@@ -6,7 +6,7 @@
     "#/*": "./src/*"
   },
   "scripts": {
-    "dev": "vite dev --port 3000",
+    "dev": "vite dev",
     "generate:api": "openapi-typescript http://localhost:5110/openapi/v1.json -o ./src/lib/api-types.d.ts",
     "generate-routes": "tsr generate",
     "build": "vite build",
