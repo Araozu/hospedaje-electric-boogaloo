@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
 	BedDouble,
 	CalendarCheck,
@@ -22,8 +22,8 @@ export function AppNavbar() {
 		navigationItems.find((item) => item.to === pathname)?.label ?? "Inicio";
 
 	return (
-		<header className="sticky top-0 z-20 w-full border-b border-border bg-background">
-			<div className="flex h-8 items-center border-b border-border/70 bg-muted px-3 text-sm">
+		<header className="sticky top-0 z-20 w-full border-b border-border bg-linear-to-b from-muted to-secondary">
+			<div className="flex h-8 items-center px-3 text-sm">
 				<Link
 					to="/"
 					aria-label="Open library home"
