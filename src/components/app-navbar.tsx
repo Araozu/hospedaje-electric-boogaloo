@@ -1,4 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
+import { Button } from "@/components/ui/button"
 import {
 	BedDouble,
 	CalendarCheck,
@@ -6,8 +7,6 @@ import {
 	House,
 	PanelLeft,
 } from "lucide-react";
-
-import { cn } from "@/lib/utils";
 
 const navigationItems = [
 	{ label: "Inicio", to: "/", icon: House },
@@ -57,23 +56,22 @@ export function AppNavbar() {
 			>
 				{navigationItems.map((item) => {
 					const Icon = item.icon;
+					const isActive = currentSection === item.label;
 
 					return (
 						<Link
 							key={item.label}
 							to={item.to}
 							activeOptions={{ exact: item.to === "/" }}
-							className={cn(
-								"inline-flex h-7 shrink-0 items-center gap-1.5 rounded-sm px-2 text-sm text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-								"[&.active]:bg-muted [&.active]:font-medium",
-							)}
 						>
-							<Icon
-								aria-hidden="true"
-								className="size-3.5"
-								strokeWidth={2.25}
-							/>
-							{item.label}
+							<Button variant={isActive ? "default" : "ghost"}>
+								<Icon
+									aria-hidden="true"
+									className="size-3.5"
+									strokeWidth={2.25}
+								/>
+								{item.label}
+							</Button>
 						</Link>
 					);
 				})}
