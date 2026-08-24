@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 
+import { ModeToggle } from "../mode-toggle";
 import { navigationItems } from "./navigation-items";
 
 type NavbarNavigationProps = {
@@ -34,6 +35,9 @@ export function NavbarNavigation({ currentSection }: NavbarNavigationProps) {
 					</Link>
 				);
 			})}
+			<div className="ml-auto shrink-0 pl-2 pr-2">
+				<ModeToggle />
+			</div>
 		</nav>
 	);
 }

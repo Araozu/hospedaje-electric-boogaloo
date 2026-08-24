@@ -32,3 +32,8 @@ Simple by default, powerful when needed.
 - Use the existing `cn` utility for conditional Tailwind classes.
 - Use Lucide icons through the existing shadcn setup instead of introducing another icon library.
 - Preserve responsive behavior on desktop and mobile without adding unnecessary layout complexity.
+
+## Format/Lint
+
+- Always prefer using the tool to fix format/lint errors
+
