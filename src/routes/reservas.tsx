@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ChevronDown } from "lucide-react";
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { GetDayPercentage, weekDays, type DayName } from "@/utils/time";
 
 export const Route = createFileRoute("/reservas")({ component: Reservas });
 
@@ -14,16 +15,6 @@ type Floor = {
 type Room = {
 	name: string;
 };
-
-const weekDays = [
-	{ label: "L", name: "Lunes" },
-	{ label: "M", name: "Martes" },
-	{ label: "Mi", name: "Miércoles" },
-	{ label: "J", name: "Jueves" },
-	{ label: "V", name: "Viernes" },
-	{ label: "S", name: "Sábado" },
-	{ label: "D", name: "Domingo" },
-];
 
 function Reservas() {
 	const floors: Array<Floor> = [
@@ -71,6 +62,14 @@ function FloorReservationView({ floor }: { floor: Floor }) {
 	const [isOpen, setIsOpen] = useState(true);
 	const contentId = useId();
 
+	// NOTE: this could be a single global thing, & pass down via context.
+	// Only one per app needed
+	const [nowLineData, setNowLineData] = useState(GetDayPercentage())
+	useEffect(() => {
+		const id = setInterval(() => setNowLineData(GetDayPercentage()), 60_000)
+		return () => clearInterval(id)
+	})
+
 	return (
 		<div className="my-4 overflow-hidden rounded-md border bg-card shadow-sm">
 			<div className="flex items-center justify-between bg-linear-to-b from-muted to-secondary px-4 py-2">
@@ -93,7 +92,7 @@ function FloorReservationView({ floor }: { floor: Floor }) {
 			</div>
 			<div id={contentId} hidden={!isOpen} className="overflow-x-auto">
 				<div className="min-w-xl">
-					<div className="grid grid-cols-[6rem_repeat(7,minmax(2.5rem,1fr))] gap-2 bg-muted/40 px-3 py-2">
+					<div className="grid grid-cols-[6rem_repeat(7,minmax(2.5rem,1fr))] bg-muted/40 py-2">
 						<div className="flex items-center px-1 text-xs font-medium text-muted-foreground"></div>
 						{weekDays.map((day) => (
 							<div
@@ -101,12 +100,17 @@ function FloorReservationView({ floor }: { floor: Floor }) {
 								className="flex items-center justify-center px-1 py-1 text-xs font-semibold font-mono text-muted-foreground"
 								title={day.name}
 							>
-								{day.label}
+								{day.shortName}
 							</div>
 						))}
 					</div>
 					{floor.rooms.length > 0 ? (
-						floor.rooms.map((room) => <RoomView key={room.name} room={room} />)
+						floor.rooms.map((room) => <RoomView
+							key={room.name}
+							room={room}
+							currentTimeRatio={nowLineData[1]}
+							currentDayLabel={nowLineData[0]}
+						/>)
 					) : (
 						<div className="px-4 py-6 text-sm text-muted-foreground">
 							No hay habitaciones en esta planta.
@@ -118,7 +122,8 @@ function FloorReservationView({ floor }: { floor: Floor }) {
 	);
 }
 
-function RoomView({ room }: { room: Room }) {
+type RoomViewProps = { room: Room, currentTimeRatio: number, currentDayLabel: DayName }
+function RoomView({ room, currentTimeRatio: redLine, currentDayLabel }: RoomViewProps) {
 	return (
 		<div className="grid grid-cols-[6rem_repeat(7,minmax(2.5rem,1fr))] border-t group">
 			<div className="flex items-center justify-center px-1 text-sm font-medium
@@ -128,8 +133,15 @@ function RoomView({ room }: { room: Room }) {
 			{weekDays.map((day) => (
 				<div
 					key={`${room.name}-${day.name}`}
-					className="min-h-16 shadow-xs transition-colors hover:border-primary/50 hover:bg-accent/50"
-				/>
+					className="relative min-h-16 shadow-xs transition-colors hover:border-primary/50 hover:bg-accent/50"
+				>
+					{day.label === currentDayLabel ? (
+						<div
+							className="absolute h-full w-0.5 bg-red-400/75"
+							style={{ left: `${redLine * 100}%` }}
+						></div>
+					) : <></>}
+				</div>
 			))}
 		</div>
 	);

@@ -3,6 +3,10 @@
 Target user is 30+ yo. Focus on discoverability. Interactable elements **must** see & feel that way.
 No flat design.
 
+## Motto
+
+Simple by default, powerful when needed.
+
 ## Architecture
 
 - This is a TanStack Router frontend and must remain a client-side SPA.

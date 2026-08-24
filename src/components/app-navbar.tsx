@@ -53,7 +53,7 @@ export function AppNavbar() {
 
 			<nav
 				aria-label="Main navigation"
-				className="flex min-h-9 items-center gap-1 overflow-x-auto px-3 py-1"
+				className="flex min-h-9 items-center gap-1 overflow-x-auto px-3 pl-12 pr-1"
 			>
 				{navigationItems.map((item) => {
 					const Icon = item.icon;
