@@ -105,14 +105,15 @@ function getPlainReservationLabel(reservation: Reservation): string {
 function getReservationIcon(reservation: Reservation) {
 	switch (reservation.status) {
 		case "confirmed":
-			return <CircleCheckIcon size={14} />
+			return <CircleCheckIcon size={14} />;
 		case "pending":
-			return <ClockIcon size={14} />
+			return <ClockIcon size={14} />;
 		case "checked-in":
-			return <CircleArrowDownIcon size={14} />
-		default:
-			const _: never = reservation.status
+			return <CircleArrowDownIcon size={14} />;
+		default: {
+			const _: never = reservation.status;
 			_;
+		}
 	}
 }
 
@@ -135,7 +136,7 @@ export function RoomView({
 				{room.name}
 			</div>
 			<div className="relative min-h-16">
-				<div className="pointer-events-none absolute inset-0 grid grid-cols-[repeat(14,minmax(0,1fr))]">
+				<div className="pointer-events-none absolute inset-0 grid grid-cols-14">
 					{days.map((day) => (
 						<div
 							key={`${room.id}-day-${day.dateKey}`}
@@ -143,7 +144,7 @@ export function RoomView({
 						></div>
 					))}
 				</div>
-				<div className="relative grid min-h-16 grid-cols-[repeat(14,minmax(0,1fr))] items-center">
+				<div className="relative grid min-h-16 grid-cols-14 items-center">
 					{reservations.map((reservation) => (
 						<div
 							key={reservation.id}
@@ -156,7 +157,8 @@ export function RoomView({
 						>
 							<span className="block truncate">{reservation.guestName}</span>
 							<div className="flex gap-2">
-								{getReservationIcon(reservation)} {getPlainReservationLabel(reservation)}
+								{getReservationIcon(reservation)}{" "}
+								{getPlainReservationLabel(reservation)}
 							</div>
 							<span className="sr-only">
 								{getReservationLabel(reservation)}
