@@ -1,17 +1,21 @@
-import { type DayName, weekDays } from "@/utils/time";
-
-import type { Room } from "./types";
+import {
+	isSameCalendarDay,
+	type ReservationDay,
+	type Room,
+} from "@/data/reservas";
 
 type RoomViewProps = {
 	room: Room;
+	days: Array<ReservationDay>;
 	currentTimeRatio: number;
-	currentDayLabel: DayName;
+	currentDate: Date;
 };
 
 export function RoomView({
 	room,
+	days,
 	currentTimeRatio: redLine,
-	currentDayLabel,
+	currentDate,
 }: RoomViewProps) {
 	return (
 		<div className="grid grid-cols-[6rem_repeat(7,minmax(2.5rem,1fr))] border-t group">
@@ -21,12 +25,12 @@ export function RoomView({
 			>
 				{room.name}
 			</div>
-			{weekDays.map((day) => (
+			{days.map((day) => (
 				<div
-					key={`${room.name}-${day.name}`}
+					key={`${room.name}-${day.date.toISOString()}`}
 					className="relative min-h-16 shadow-xs transition-colors hover:border-primary/50 hover:bg-accent/50"
 				>
-					{day.label === currentDayLabel ? (
+					{isSameCalendarDay(day.date, currentDate) ? (
 						<div
 							className="absolute h-full w-0.5 bg-red-400/75"
 							style={{ left: `${redLine * 100}%` }}

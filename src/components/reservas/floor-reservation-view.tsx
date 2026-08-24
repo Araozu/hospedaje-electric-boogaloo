@@ -2,14 +2,15 @@ import { ChevronDown } from "lucide-react";
 import { useEffect, useId, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { GetDayPercentage, weekDays } from "@/utils/time";
+import { type Floor, getReservationDays, getWeekStart } from "@/data/reservas";
+import { GetDayPercentage } from "@/utils/time";
 
 import { RoomView } from "./room-view";
-import type { Floor } from "./types";
 
 export function FloorReservationView({ floor }: { floor: Floor }) {
 	const [isOpen, setIsOpen] = useState(true);
 	const contentId = useId();
+	const days = getReservationDays(getWeekStart(new Date()));
 
 	// NOTE: this could be a single global thing, & pass down via context.
 	// Only one per app needed
@@ -17,7 +18,7 @@ export function FloorReservationView({ floor }: { floor: Floor }) {
 	useEffect(() => {
 		const id = setInterval(() => setNowLineData(GetDayPercentage()), 60_000);
 		return () => clearInterval(id);
-	});
+	}, []);
 
 	return (
 		<div className="my-4 overflow-hidden rounded-md border bg-card shadow-sm">
@@ -41,13 +42,14 @@ export function FloorReservationView({ floor }: { floor: Floor }) {
 				<div className="min-w-xl">
 					<div className="grid grid-cols-[6rem_repeat(7,minmax(2.5rem,1fr))] bg-muted/40 py-2">
 						<div className="flex items-center px-1 text-xs font-medium text-muted-foreground"></div>
-						{weekDays.map((day) => (
+						{days.map((day) => (
 							<div
-								key={day.name}
-								className="flex items-center justify-center px-1 py-1 text-xs font-semibold font-mono text-muted-foreground"
+								key={day.date.toISOString()}
+								className="flex items-center justify-center gap-1 px-1 py-1 text-xs font-semibold font-mono text-muted-foreground"
 								title={day.name}
 							>
 								{day.shortName}
+								<span className="text-foreground">{day.dayNumber}</span>
 							</div>
 						))}
 					</div>
@@ -56,8 +58,9 @@ export function FloorReservationView({ floor }: { floor: Floor }) {
 							<RoomView
 								key={room.name}
 								room={room}
+								days={days}
 								currentTimeRatio={nowLineData[1]}
-								currentDayLabel={nowLineData[0]}
+								currentDate={nowLineData[0]}
 							/>
 						))
 					) : (
