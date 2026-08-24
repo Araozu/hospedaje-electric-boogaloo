@@ -22,7 +22,8 @@ export function AppNavbar() {
 		navigationItems.find((item) => item.to === pathname)?.label ?? "Inicio";
 
 	return (
-		<header className="sticky top-0 z-20 w-full border-b border-border bg-linear-to-b from-muted to-secondary">
+		<header className="sticky top-0 z-20 w-full border-b border-border font-heading
+			bg-linear-to-b from-muted to-secondary">
 			<div className="flex h-8 items-center px-3 text-sm">
 				<Link
 					to="/"
@@ -64,7 +65,7 @@ export function AppNavbar() {
 							to={item.to}
 							activeOptions={{ exact: item.to === "/" }}
 						>
-							<Button variant={isActive ? "default" : "ghost"}>
+							<Button variant={isActive ? "default" : "secondary"}>
 								<Icon
 									aria-hidden="true"
 									className="size-3.5"
