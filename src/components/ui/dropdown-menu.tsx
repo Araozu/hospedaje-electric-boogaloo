@@ -1,7 +1,18 @@
 import { Menu as MenuPrimitive } from "@base-ui/react/menu";
 import { CheckIcon, ChevronRightIcon } from "lucide-react";
 import type * as React from "react";
+
+import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+
+const dropdownMenuContentClasses =
+	"z-50 max-h-(--available-height) w-(--anchor-width) min-w-32 origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-sm border border-border border-t-background/80 bg-linear-to-b from-popover to-background p-1 text-popover-foreground shadow-sm duration-100 outline-none data-[side=bottom]:slide-in-from-top-1 data-[side=inline-end]:slide-in-from-left-1 data-[side=inline-start]:slide-in-from-right-1 data-[side=left]:slide-in-from-right-1 data-[side=right]:slide-in-from-left-1 data-[side=top]:slide-in-from-bottom-1 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:overflow-hidden data-closed:fade-out-0 data-closed:zoom-out-95";
+
+const dropdownMenuItemClasses = cn(
+	buttonVariants({ variant: "flat", size: "default" }),
+	"data-checked:!bg-primary data-checked:!text-primary-foreground",
+	"relative flex min-h-7 w-full cursor-pointer items-center justify-start gap-2 !rounded-sm py-1 text-xs/relaxed outline-hidden select-none focus:bg-secondary focus:text-secondary-foreground focus-visible:ring-1 focus-visible:ring-ring/60 active:translate-y-px active:!shadow-inner data-disabled:pointer-events-none data-disabled:opacity-50 data-checked:bg-primary data-checked:text-primary-foreground data-checked:border-foreground/20 data-checked:!bg-clip-padding data-checked:!bg-[linear-gradient(to_bottom,color-mix(in_oklch,var(--background)_18%,transparent),transparent_52%,color-mix(in_oklch,var(--foreground)_10%,transparent))] data-checked:shadow-xs dark:data-checked:!bg-[linear-gradient(to_bottom,color-mix(in_oklch,var(--foreground)_18%,transparent),transparent_52%,color-mix(in_oklch,var(--background)_18%,transparent))] data-open:border-foreground/20 data-open:!bg-clip-padding data-open:!bg-[linear-gradient(to_bottom,color-mix(in_oklch,var(--background)_18%,transparent),transparent_52%,color-mix(in_oklch,var(--foreground)_10%,transparent))] data-open:bg-secondary data-open:text-secondary-foreground data-open:shadow-xs dark:data-open:!bg-[linear-gradient(to_bottom,color-mix(in_oklch,var(--foreground)_18%,transparent),transparent_52%,color-mix(in_oklch,var(--background)_18%,transparent))] data-popup-open:border-foreground/20 data-popup-open:!bg-clip-padding data-popup-open:!bg-[linear-gradient(to_bottom,color-mix(in_oklch,var(--background)_18%,transparent),transparent_52%,color-mix(in_oklch,var(--foreground)_10%,transparent))] data-popup-open:bg-secondary data-popup-open:text-secondary-foreground data-popup-open:shadow-xs dark:data-popup-open:!bg-[linear-gradient(to_bottom,color-mix(in_oklch,var(--foreground)_18%,transparent),transparent_52%,color-mix(in_oklch,var(--background)_18%,transparent))]",
+);
 
 function DropdownMenu({ ...props }: MenuPrimitive.Root.Props) {
 	return <MenuPrimitive.Root data-slot="dropdown-menu" {...props} />;
@@ -38,10 +49,7 @@ function DropdownMenuContent({
 			>
 				<MenuPrimitive.Popup
 					data-slot="dropdown-menu-content"
-					className={cn(
-						"z-50 max-h-(--available-height) w-(--anchor-width) min-w-32 origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-lg bg-popover p-1 text-popover-foreground shadow-md ring-1 ring-foreground/10 duration-100 outline-none data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:overflow-hidden data-closed:fade-out-0 data-closed:zoom-out-95",
-						className,
-					)}
+					className={cn(dropdownMenuContentClasses, className)}
 					{...props}
 				/>
 			</MenuPrimitive.Positioner>
@@ -65,7 +73,7 @@ function DropdownMenuLabel({
 			data-slot="dropdown-menu-label"
 			data-inset={inset}
 			className={cn(
-				"px-2 py-1.5 text-xs text-muted-foreground data-inset:pl-7.5",
+				"px-2 py-1 text-xs font-medium text-muted-foreground data-inset:pl-7.5",
 				className,
 			)}
 			{...props}
@@ -88,7 +96,8 @@ function DropdownMenuItem({
 			data-inset={inset}
 			data-variant={variant}
 			className={cn(
-				"group/dropdown-menu-item relative flex min-h-7 cursor-default items-center gap-2 rounded-md px-2 py-1 text-xs/relaxed outline-hidden select-none focus:bg-accent focus:text-accent-foreground not-data-[variant=destructive]:focus:**:text-accent-foreground data-inset:pl-7.5 data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:focus:text-destructive dark:data-[variant=destructive]:focus:bg-destructive/20 data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-3.5 data-[variant=destructive]:*:[svg]:text-destructive",
+				"group/dropdown-menu-item relative data-inset:pl-7.5 data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:focus:text-destructive dark:data-[variant=destructive]:focus:bg-destructive/20 dark:data-[variant=destructive]:data-checked:bg-destructive/20 data-[variant=destructive]:*:[svg]:text-destructive",
+				dropdownMenuItemClasses,
 				className,
 			)}
 			{...props}
@@ -112,10 +121,7 @@ function DropdownMenuSubTrigger({
 		<MenuPrimitive.SubmenuTrigger
 			data-slot="dropdown-menu-sub-trigger"
 			data-inset={inset}
-			className={cn(
-				"flex min-h-7 cursor-default items-center gap-2 rounded-md px-2 py-1 text-xs outline-hidden select-none focus:bg-accent focus:text-accent-foreground not-data-[variant=destructive]:focus:**:text-accent-foreground data-inset:pl-7.5 data-popup-open:bg-accent data-popup-open:text-accent-foreground data-open:bg-accent data-open:text-accent-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-3.5",
-				className,
-			)}
+			className={cn("data-inset:pl-7.5", dropdownMenuItemClasses, className)}
 			{...props}
 		>
 			{children}
@@ -135,10 +141,7 @@ function DropdownMenuSubContent({
 	return (
 		<DropdownMenuContent
 			data-slot="dropdown-menu-sub-content"
-			className={cn(
-				"w-auto min-w-32 rounded-lg bg-popover p-1 text-popover-foreground shadow-md ring-1 ring-foreground/10 duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
-				className,
-			)}
+			className={cn("w-auto", className)}
 			align={align}
 			alignOffset={alignOffset}
 			side={side}
@@ -162,7 +165,8 @@ function DropdownMenuCheckboxItem({
 			data-slot="dropdown-menu-checkbox-item"
 			data-inset={inset}
 			className={cn(
-				"relative flex min-h-7 cursor-default items-center gap-2 rounded-md py-1.5 pr-8 pl-2 text-xs outline-hidden select-none focus:bg-accent focus:text-accent-foreground focus:**:text-accent-foreground data-inset:pl-7.5 data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-3.5",
+				"relative pr-8 data-inset:pl-7.5",
+				dropdownMenuItemClasses,
 				className,
 			)}
 			checked={checked}
@@ -203,7 +207,8 @@ function DropdownMenuRadioItem({
 			data-slot="dropdown-menu-radio-item"
 			data-inset={inset}
 			className={cn(
-				"relative flex min-h-7 cursor-default items-center gap-2 rounded-md py-1.5 pr-8 pl-2 text-xs outline-hidden select-none focus:bg-accent focus:text-accent-foreground focus:**:text-accent-foreground data-inset:pl-7.5 data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-3.5",
+				"relative pr-8 data-inset:pl-7.5",
+				dropdownMenuItemClasses,
 				className,
 			)}
 			{...props}
