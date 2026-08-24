@@ -1,9 +1,22 @@
 import { FilterContainer } from "@/components/ui/filter-container";
-import { floors } from "@/data/reservas";
+import {
+	addCalendarDays,
+	floors,
+	getReservationDays,
+	getWeekStart,
+	queryReservations,
+} from "@/data/reservas";
 
 import { FloorReservationView } from "./floor-reservation-view";
 
 export function Reservas() {
+	const weekStart = getWeekStart(new Date());
+	const days = getReservationDays(weekStart);
+	const reservations = queryReservations({
+		startDate: weekStart,
+		endDate: addCalendarDays(weekStart, days.length),
+	});
+
 	return (
 		<div className="p-8">
 			<h1 className="text-2xl font-heading font-semibold tracking-tight mb-4">
@@ -32,7 +45,11 @@ export function Reservas() {
 			<div className="mt-6">
 				{floors.map((f) => (
 					<div key={f.name}>
-						<FloorReservationView floor={f} />
+						<FloorReservationView
+							floor={f}
+							days={days}
+							reservations={reservations}
+						/>
 					</div>
 				))}
 			</div>

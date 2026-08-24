@@ -2,15 +2,24 @@ import { ChevronDown } from "lucide-react";
 import { useEffect, useId, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { type Floor, getReservationDays, getWeekStart } from "@/data/reservas";
+import type { Floor, Reservation, ReservationDay } from "@/data/reservas";
 import { GetDayPercentage } from "@/utils/time";
 
 import { RoomView } from "./room-view";
 
-export function FloorReservationView({ floor }: { floor: Floor }) {
+type FloorReservationViewProps = {
+	floor: Floor;
+	days: Array<ReservationDay>;
+	reservations: Array<Reservation>;
+};
+
+export function FloorReservationView({
+	floor,
+	days,
+	reservations,
+}: FloorReservationViewProps) {
 	const [isOpen, setIsOpen] = useState(true);
 	const contentId = useId();
-	const days = getReservationDays(getWeekStart(new Date()));
 
 	// NOTE: this could be a single global thing, & pass down via context.
 	// Only one per app needed
@@ -40,25 +49,30 @@ export function FloorReservationView({ floor }: { floor: Floor }) {
 			</div>
 			<div id={contentId} hidden={!isOpen} className="overflow-x-auto">
 				<div className="min-w-xl">
-					<div className="grid grid-cols-[6rem_repeat(7,minmax(2.5rem,1fr))] bg-muted/40 py-2">
-						<div className="flex items-center px-1 text-xs font-medium text-muted-foreground"></div>
-						{days.map((day) => (
-							<div
-								key={day.date.toISOString()}
-								className="flex items-center justify-center gap-1 px-1 py-1 text-xs font-semibold font-mono text-muted-foreground"
-								title={day.name}
-							>
-								{day.shortName}
-								<span className="text-foreground">{day.dayNumber}</span>
-							</div>
-						))}
+					<div className="grid grid-cols-[6rem_minmax(0,1fr)] bg-muted/40 py-2">
+						<div className="flex items-center border-r px-1 text-xs font-medium text-muted-foreground"></div>
+						<div className="grid grid-cols-[repeat(14,minmax(0,1fr))]">
+							{days.map((day) => (
+								<div
+									key={day.dateKey}
+									className="col-span-2 flex items-center justify-center gap-1 border-r px-1 py-1 text-xs font-semibold font-mono text-muted-foreground"
+									title={day.name}
+								>
+									{day.shortName}
+									<span className="text-foreground">{day.dayNumber}</span>
+								</div>
+							))}
+						</div>
 					</div>
 					{floor.rooms.length > 0 ? (
 						floor.rooms.map((room) => (
 							<RoomView
-								key={room.name}
+								key={room.id}
 								room={room}
 								days={days}
+								reservations={reservations.filter(
+									(reservation) => reservation.roomId === room.id,
+								)}
 								currentTimeRatio={nowLineData[1]}
 								currentDate={nowLineData[0]}
 							/>
