@@ -16,6 +16,7 @@ const buttonVariants = cva(
 					"border-border bg-linear-to-b from-[#fdfbfc] to-[#f2f2f2] text-secondary-foreground shadow-xs aria-expanded:text-secondary-foreground",
 				ghost:
 					"hover:bg-muted hover:text-foreground aria-expanded:bg-white aria-expanded:text-foreground dark:hover:bg-muted/50",
+				flat: "border-transparent bg-transparent !bg-none shadow-none active:not-aria-[haspopup]:!translate-y-0 active:!shadow-none hover:border-foreground/20 hover:!bg-clip-padding hover:!bg-[linear-gradient(to_bottom,color-mix(in_oklch,var(--background)_18%,transparent),transparent_52%,color-mix(in_oklch,var(--foreground)_10%,transparent))] hover:brightness-105",
 				destructive:
 					"bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40",
 				link: "text-primary underline-offset-4 hover:underline",
