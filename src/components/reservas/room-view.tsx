@@ -17,7 +17,7 @@ export function RoomView({
 		<div className="grid grid-cols-[6rem_repeat(7,minmax(2.5rem,1fr))] border-t group">
 			<div
 				className="flex items-center justify-center px-1 text-sm font-medium
-				border-r group-hover:bg-accent/50 transition-colors"
+				border-r bg-muted/40 group-hover:bg-accent/50 transition-colors"
 			>
 				{room.name}
 			</div>

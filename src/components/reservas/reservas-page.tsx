@@ -16,6 +16,12 @@ export function Reservas() {
 				{ name: "102" },
 				{ name: "103" },
 				{ name: "104" },
+				{ name: "105" },
+				{ name: "106" },
+				{ name: "108" },
+				{ name: "110" },
+				{ name: "111" },
+				{ name: "115" },
 			],
 		},
 		{
@@ -41,10 +47,18 @@ export function Reservas() {
 				<FilterContainer
 					allText="Todos"
 					options={[
-						{ label: "matrimonial", text: "Matrimonial" },
-						{ label: "single", text: "Single" },
 						{ label: "doble", text: "Doble" },
-						{ label: "litera", text: "Litera" },
+						{ label: "matrimonial", text: "Matrimonial" },
+						{ label: "deluxe", text: "Suite Deluxe" },
+					]}
+				/>
+
+				<span className="font-heading">Disponibles:</span>
+				<FilterContainer
+					allText="Todo"
+					options={[
+						{ label: "now", text: "Hoy" },
+						{ label: "week", text: "Semana" },
 					]}
 				/>
 			</div>
