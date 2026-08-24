@@ -7,6 +7,7 @@ import {
 	type Room,
 } from "@/data/reservas";
 import { cn } from "@/lib/utils";
+import { CircleArrowDownIcon, CircleCheckIcon, ClockIcon } from "lucide-react";
 
 type RoomViewProps = {
 	room: Room;
@@ -97,6 +98,24 @@ function getReservationLabel(reservation: Reservation): string {
 	return `${reservation.guestName}. Entrada ${reservation.checkIn}, salida ${reservation.checkOut}. ${reservationStatusLabels[reservation.status]}.`;
 }
 
+function getPlainReservationLabel(reservation: Reservation): string {
+	return `${reservationStatusLabels[reservation.status]}`;
+}
+
+function getReservationIcon(reservation: Reservation) {
+	switch (reservation.status) {
+		case "confirmed":
+			return <CircleCheckIcon size={14} />
+		case "pending":
+			return <ClockIcon size={14} />
+		case "checked-in":
+			return <CircleArrowDownIcon size={14} />
+		default:
+			const _: never = reservation.status
+			_;
+	}
+}
+
 export function RoomView({
 	room,
 	days,
@@ -121,7 +140,7 @@ export function RoomView({
 						<div
 							key={`${room.id}-day-${day.dateKey}`}
 							className="col-span-2 border-r transition-colors hover:bg-accent/50"
-						/>
+						></div>
 					))}
 				</div>
 				<div className="relative grid min-h-16 grid-cols-[repeat(14,minmax(0,1fr))] items-center">
@@ -136,6 +155,9 @@ export function RoomView({
 							title={getReservationLabel(reservation)}
 						>
 							<span className="block truncate">{reservation.guestName}</span>
+							<div className="flex gap-2">
+								{getReservationIcon(reservation)} {getPlainReservationLabel(reservation)}
+							</div>
 							<span className="sr-only">
 								{getReservationLabel(reservation)}
 							</span>
@@ -147,7 +169,7 @@ export function RoomView({
 						aria-hidden="true"
 						className="pointer-events-none absolute inset-y-0 z-20 w-0.5 bg-destructive/75"
 						style={{ left: `${currentLinePosition}%` }}
-					/>
+					></div>
 				) : null}
 			</div>
 		</div>
