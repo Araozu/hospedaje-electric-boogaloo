@@ -1,8 +1,8 @@
 import { useRouterState } from "@tanstack/react-router";
 
-import { NavbarHeader } from "./reservas/navbar/navbar-header";
-import { NavbarNavigation } from "./reservas/navbar/navbar-navigation";
-import { navigationItems } from "./reservas/navbar/navigation-items";
+import { NavbarHeader } from "./navbar/navbar-header";
+import { NavbarNavigation } from "./navbar/navbar-navigation";
+import { navigationItems } from "./navbar/navigation-items";
 
 export function AppNavbar() {
 	const pathname = useRouterState({

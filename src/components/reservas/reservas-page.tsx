@@ -1,5 +1,6 @@
 import { FloorReservationView } from "./floor-reservation-view";
 import type { Floor } from "./types";
+import { Badge } from "@/components/ui/badge";
 
 export function Reservas() {
 	const floors: Array<Floor> = [
@@ -31,9 +32,12 @@ export function Reservas() {
 
 	return (
 		<div className="p-8">
-			<h1 className="text-2xl font-heading font-semibold tracking-tight">
+			<h1 className="text-2xl font-heading font-semibold tracking-tight mb-4">
 				Reservas
 			</h1>
+			<div>
+				<RoomTypeFilter />
+			</div>
 			<div className="mt-6">
 				{floors.map((f) => (
 					<div key={f.name}>
@@ -41,6 +45,15 @@ export function Reservas() {
 					</div>
 				))}
 			</div>
+		</div>
+	);
+}
+
+function RoomTypeFilter() {
+	return (
+		<div className="flex gap-2">
+			<span className="font-heading">Tipo de Habitación:</span>
+			<Badge>Badge</Badge>
 		</div>
 	);
 }

@@ -31,9 +31,7 @@ export function RoomView({
 							className="absolute h-full w-0.5 bg-red-400/75"
 							style={{ left: `${redLine * 100}%` }}
 						></div>
-					) : (
-						<></>
-					)}
+					) : null}
 				</div>
 			))}
 		</div>
