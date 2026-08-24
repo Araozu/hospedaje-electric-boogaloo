@@ -1,6 +1,7 @@
 import { FloorReservationView } from "./floor-reservation-view";
 import type { Floor } from "./types";
-import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
+import { cn } from "#/lib/utils";
 
 export function Reservas() {
 	const floors: Array<Floor> = [
@@ -50,10 +51,103 @@ export function Reservas() {
 }
 
 function RoomTypeFilter() {
+	const [allActive, setAllActive] = useState(true);
+	const [active, setActive] = useState<{ [k: string]: boolean }>({})
+
+	function HandleChipClick(name: string, newState: boolean) {
+		const state = {
+			...active,
+			[name]: newState,
+		};
+		setActive(state);
+
+		if (Object.values(state).every(b => !b)) {
+			// if no chip is clicked, All is enabled
+			setAllActive(true);
+		} else {
+			// if at least 1 chip is clicked, All is disabled
+			setAllActive(false);
+		}
+	}
+
+	function HandleAllClick(newState: boolean) {
+		if (newState === true) {
+			setAllActive(true)
+			setActive({});
+		}
+	}
+
 	return (
-		<div className="flex gap-2">
-			<span className="font-heading">Tipo de Habitación:</span>
-			<Badge>Badge</Badge>
-		</div>
+		<div className="flex gap-4">
+			<span className="font-heading">Tipo:</span>
+			<div className="flex bg-linear-to-b from-muted to-secondary rounded-lg">
+				<Chip
+					active={allActive}
+					onClick={HandleAllClick}
+					position="left"
+					className="border-r-4"
+				>
+					Todos
+				</Chip>
+				<Chip position="middle"
+					active={active["matrimonial"]}
+					onClick={(b) => HandleChipClick("matrimonial", b)}
+				>
+					Matrimonial
+				</Chip>
+				<Chip position="middle"
+					active={active["single"]}
+					onClick={(b) => HandleChipClick("single", b)}
+				>
+					Single
+				</Chip>
+				<Chip position="middle"
+					active={active["doble"]}
+					onClick={(b) => HandleChipClick("doble", b)}
+				>
+					Doble
+				</Chip>
+				<Chip position="right"
+					active={active["litera"]}
+					onClick={(b) => HandleChipClick("litera", b)}
+				>
+					Litera
+				</Chip>
+			</div>
+		</div >
 	);
+}
+
+type ChipBorderType = "left" | "middle" | "right"
+type ChipProps = {
+	position: ChipBorderType, className?: string, children: string,
+	active: boolean, onClick: (newState: boolean) => void
+}
+function Chip({ position, className, children, active, onClick }: ChipProps) {
+	const chipBorderClass = (() => {
+		if (position === "left") return "rounded-l-lg border"
+		else if (position === "middle") return "border-y border-r"
+		else if (position === "right") return "rounded-r-lg border-y border-r"
+		else {
+			let _: never = position;
+			return _;
+		}
+	})()
+
+	return (
+		<button className={cn([
+			"inline-block text-sm font-heading font-medium",
+			"px-2 transition-all cursor-pointer flex items-center align-middle gap-1",
+			"group",
+			"not:data-active:bg-muted",
+			"data-active:bg-primary data-active:text-primary-foreground",
+			chipBorderClass,
+			className,
+		])}
+			data-active={active}
+			onClick={() => onClick(!active)}
+		>
+			<span>{children}</span>
+		</button>
+	)
 }
