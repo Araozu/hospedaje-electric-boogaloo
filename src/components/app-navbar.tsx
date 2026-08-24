@@ -13,7 +13,7 @@ export function AppNavbar() {
 
 	return (
 		<header
-			className="sticky top-0 z-20 w-full border-b border-border font-heading
+			className="sticky top-0 z-100 w-full border-b border-border font-heading
 			bg-linear-to-b from-muted to-secondary"
 		>
 			<NavbarHeader currentSection={currentSection} />

@@ -32,7 +32,6 @@ export function ModeToggle() {
 				}
 			/>
 			<DropdownMenuContent align="end">
-				<DropdownMenuLabel>Tema</DropdownMenuLabel>
 				<DropdownMenuRadioGroup
 					value={theme}
 					onValueChange={(value) => {
@@ -41,6 +40,7 @@ export function ModeToggle() {
 						}
 					}}
 				>
+					<DropdownMenuLabel>Tema</DropdownMenuLabel>
 					{themeOptions.map((option) => (
 						<DropdownMenuRadioItem key={option.value} value={option.value}>
 							{option.label}
